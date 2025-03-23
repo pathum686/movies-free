@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Movies</title>
+    <style>
+        /* Apply background image to the entire body */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://cdn.discordapp.com/attachments/1321172827092684812/1353387793610707044/cyberpunk-2077-zero-two-darling-in-the-franxx-neon-3840x2160-4238.jpg?ex=67e1781a&is=67e0269a&hm=c231ced9553d74bdc089b86454a06b532e24c4dff6eab1408611b3f108b6399c&');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #fff;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.light-mode {
+            background-color: #fff;
+            color: #333;
+        }
+
+        header {
+            background-color: rgba(51, 51, 51, 0.8);
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(68, 68, 68, 0.8);
+            padding: 10px 20px;
+        }
+
+        nav a {
+            color: #fff;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            color: #f4f4f4;
+            text-decoration: underline;
+        }
+
+        .hero {
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            padding: 100px 20px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 1.2em;
+        }
+
+        .movie-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .movie-card {
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 10px;
+            width: 200px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            color: #333;
+        }
+
+        .movie-card img {
+            width: 100%;
+            height: auto;
+        }
+
+        .movie-card h3 {
+            font-size: 1.2em;
+            margin: 10px;
+        }
+
+        .movie-card p {
+            font-size: 0.9em;
+            margin: 10px;
+            color: #555;
+        }
+
+        .play-button, .signin-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 1em;
+            color: #fff;
+            background-color: #333;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .play-button:hover, .signin-button:hover {
+            background-color: #555;
+        }
+
+        .signin-form {
+            display: none;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px auto;
+            width: 300px;
+            text-align: center;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .signin-form input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .signin-form button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            background-color: #333;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .signin-form button:hover {
+            background-color: #555;
+        }
+
+        .thank-you {
+            display: none;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px auto;
+            width: 300px;
+            text-align: center;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .thank-you button {
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .thank-you button:hover {
+            background-color: #555;
+        }
+
+        .social-icons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .social-icons img {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+
+        .mode-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .mode-toggle:hover {
+            background-color: #555;
+        }
+
+        .exit-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .exit-button:hover {
+            background-color: #555;
+        }
+
+        .coming-soon {
+            text-align: center;
+            font-size: 1.5em;
+            margin: 20px;
+        }
+
+        .contact-goodbye {
+            font-size: 2em;
+            text-align: center;
+            margin: 50px;
+            transform: rotateX(45deg);
+            animation: spin 5s infinite linear;
+        }
+
+        .category-list {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            margin: 20px;
+            border-radius: 10px;
+        }
+
+        .category-list h2 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .category-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .category-list li {
+            margin: 10px 0;
+        }
+
+        .about-section {
+            display: none;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            margin: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .about-section p {
+            font-size: 1.2em;
+        }
+
+        @keyframes spin {
+            0% { transform: rotateX(0); }
+            100% { transform: rotateX(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Free Movies</h1>
+    </header>
+
+    <nav>
+        <div>
+            <a href="#">Home</a>
+            <a href="#" onclick="showAboutSection()">About</a>
+            <a href="#" onclick="showComingSoon()">Contact</a>
+        </div>
+        <div class="social-icons">
+            <img src="https://cdn-icons-png.flaticon.com/512/3670/3670157.png" alt="Discord" onclick="window.open('https://discord.gg/vT3tzs7W')">
+            <img src="https://cdn-icons-png.flaticon.com/512/3670/3670147.png" alt="YouTube" onclick="window.open('https://youtube.com/@animecaps64?si=B9xAWt9-FeVEus0c')">
+            <img src="https://cdn-icons-png.flaticon.com/512/3670/3670051.png" alt="WhatsApp" onclick="window.open('https://wa.me/94776750155')">
+            <button class="signin-button" onclick="showSignInForm()">Sign In</button>
+        </div>
+    </nav>
+
+    <button class="mode-toggle" onclick="toggleMode()">Dark Mode</button>
+    <button class="exit-button" onclick="goToHome()">Exit</button>
+
+    <section class="hero">
+        <h1>Welcome to Free Movies</h1>
+        <p>Your ultimate destination for the latest movies and reviews.</p>
+        <button class="play-button" onclick="toggleSong()">Play Song</button>
+    </section>
+
+    <!-- Category List -->
+    <div class="category-list">
+        <h2>Categories</h2>
+        <ul>
+            <li>Action</li>
+            <li>Comedy</li>
+            <li>Drama</li>
+            <li>Sci-Fi</li>
+            <li>Horror</li>
+        </ul>
+    </div>
+
+    <!-- About Section -->
+    <div class="about-section" id="aboutSection">
+        <h2>About Us</h2>
+        <p id="aboutText">Loading...</p>
+    </div>
+
+    <section class="movie-container">
+        <div class="movie-card">
+            <img src="https://cdn.discordapp.com/attachments/1321172827092684812/1322632803673964565/Mitsuri3.jpg?ex=67e0fc09&is=67dfaa89&hm=71886049066f9aa35a870461e42d093561647d28de8279c4bbca9e0ea00ea721&" alt="Movie 1">
+            <h3>Demon Slayer</h3>
+            <p>Genre: Action</p>
+        </div>
+
+        <div class="movie-card">
+            <img src="https://drive.google.com/uc?export=view&id=1XeSVgYKNS8f9ifaVXu91XgG1x9OWtdNT" alt="Coming Soon" onclick="window.open('https://drive.google.com/file/d/1XeSVgYKNS8f9ifaVXu91XgG1x9OWtdNT/view?usp=drive_link')">
+            <h3>Coming Soon</h3>
+            <p>Genre: Action</p>
+        </div>
+    </section>
+
+    <!-- Sign In Form -->
+    <div class="signin-form" id="signinForm">
+        <h2>Sign In</h2>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button onclick="submitForm()">Submit</button>
+    </div>
+
+    <!-- Thank You Message -->
+    <div class="thank-you" id="thankYouMessage">
+        <h2>Thank You!</h2>
+        <p>Your details have been submitted.</p>
+        <button onclick="goToHome()">Exit</button>
+    </div>
+
+    <!-- Coming Soon Message -->
+    <div class="coming-soon" id="comingSoonMessage">
+        <h2>Coming Soon!</h2>
+    </div>
+
+    <!-- Contact Goodbye Message -->
+    <div class="contact-goodbye">
+        <h2>Goodbye!</h2>
+    </div>
+
+    <footer>
+        <p>&copy; 2023 Free Movies. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let audio = new Audio('https://drive.google.com/uc?export=download&id=1NAJ1ynTjErM3BknD_Kgj_ajMcQ_fjvGG');
+        let isPlaying = false;
+
+        // Function to toggle song play/pause
+        function toggleSong() {
+            if (isPlaying) {
+                audio.pause();
+                isPlaying = false;
+            } else {
+                audio.play();
+                isPlaying = true;
+            }
+        }
+
+        // Function to show the Sign In form
+        function showSignInForm() {
+            document.getElementById('signinForm').style.display = 'block';
+        }
+
+        // Function to handle form submission
+        function submitForm() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (email && password) {
+                // Hide the form
+                document.getElementById('signinForm').style.display = 'none';
+                // Show the Thank You message
+                document.getElementById('thankYouMessage').style.display = 'block';
+            } else {
+                alert('Please fill in all fields.');
+            }
+        }
+
+        // Function to go to home screen
+        function goToHome() {
+            window.location.href = '#';
+        }
+
+        // Function to show Coming Soon message
+        function showComingSoon() {
+            alert('Coming Soon!');
+        }
+
+        // Function to toggle dark/light mode
+        function toggleMode() {
+            const body = document.body;
+            body.classList.toggle('light-mode');
+            const button = document.querySelector('.mode-toggle');
+            if (body.classList.contains('light-mode')) {
+                button.textContent = 'Light Mode';
+            } else {
+                button.textContent = 'Dark Mode';
+            }
+        }
+
+        // Function to show About section with AI-generated text
+        function showAboutSection() {
+            const aboutSection = document.getElementById('aboutSection');
+            const aboutText = document.getElementById('aboutText');
+
+            // Simulate AI-generated text (replace with actual AI API call if needed)
+            const aiGeneratedText = "Welcome to Free Movies! We are your ultimate destination for the latest movies and reviews. Our platform is designed to provide you with a seamless experience, offering a wide range of genres and categories to explore. Enjoy high-quality content and stay updated with the newest releases. Thank you for choosing Free Movies!";
+            
+            aboutText.textContent = aiGeneratedText;
+            aboutSection.style.display = 'block';
+        }
+    </script>
+
+</body>
+</html>
